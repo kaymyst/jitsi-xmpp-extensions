@@ -1,0 +1,125 @@
+package org.jitsi.xmpp.extensions.jitsimeet;
+
+import org.jivesoftware.smack.packet.IQ;
+import org.jxmpp.jid.Jid;
+
+public class VideoMuteIq
+        extends IQ {
+    /**
+     * Name space of mute packet extension.
+     */
+    public static final String NAMESPACE = "http://jitsi.org/jitmeet/video";
+
+    /**
+     * XML element name of mute packet extension.
+     */
+    public static final String ELEMENT_NAME = "video-mute";
+
+    /**
+     * Attribute name of "jid".
+     */
+    public static final String JID_ATTR_NAME = "jid";
+
+    /**
+     * Attribute name of "actor".
+     */
+    public static final String ACTOR_ATTR_NAME = "actor";
+
+    /**
+     * Muted peer MUC jid.
+     */
+    private Jid jid;
+
+    /**
+     * The jid of the peer tha initiated the mute, optional.
+     */
+    private Jid actor;
+
+    /**
+     * To mute or unmute.
+     */
+    private Boolean videoMute;
+
+    /**
+     * Creates a new instance of this class.
+     */
+    public VideoMuteIq()
+    {
+        super(ELEMENT_NAME, NAMESPACE);
+    }
+
+    @Override
+    protected IQChildElementXmlStringBuilder getIQChildElementBuilder(
+            IQChildElementXmlStringBuilder xml)
+    {
+        if (jid != null)
+        {
+            xml.attribute(JID_ATTR_NAME, jid);
+        }
+
+        if (actor != null)
+        {
+            xml.attribute(ACTOR_ATTR_NAME, actor);
+        }
+
+        xml.rightAngleBracket()
+                .append(videoMute.toString());
+
+        return xml;
+    }
+
+    /**
+     * Sets the MUC jid of the user to be muted/unmuted.
+     * @param jid muc jid in the form of room_name@muc.server.net/nickname.
+     */
+    public void setJid(Jid jid)
+    {
+        this.jid = jid;
+    }
+
+    /**
+     * Returns MUC jid of the participant in the form of
+     * "room_name@muc.server.net/nickname".
+     */
+    public Jid getJid()
+    {
+        return jid;
+    }
+
+    /**
+     * The action contained in the text part of 'video-mute' XML element body.
+     * @param videoMute <tt>true</tt> to mute the video the participant. <tt>null</tt> means no
+     *             action is included in result XML.
+     */
+    public void setVideoMute(Boolean videoMute)
+    {
+        this.videoMute = videoMute;
+    }
+
+    /**
+     * Returns <tt>true</tt> to mute the video of the participant, <tt>false</tt> to unmute
+     * or <tt>null</tt> if the action has not been specified(which is invalid).
+     */
+    public Boolean getVideoMute()
+    {
+        return videoMute;
+    }
+
+    /**
+     * Returns the peer jid that initiated the mute, if any.
+     * @return the peer jid that initiated the mute.
+     */
+    public Jid getActor()
+    {
+        return actor;
+    }
+
+    /**
+     * Sets jid for the peer that initiated the mute.
+     * @param actor the jid of the peer doing the mute.
+     */
+    public void setActor(Jid actor)
+    {
+        this.actor = actor;
+    }
+}

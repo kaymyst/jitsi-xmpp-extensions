@@ -23,3 +23,5 @@
 hs_err_pid*
 
 target
+.idea/
+jitsi-xmpp-extensions.iml
