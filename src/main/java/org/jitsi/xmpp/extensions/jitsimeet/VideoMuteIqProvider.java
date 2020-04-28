@@ -32,7 +32,7 @@ public class VideoMuteIqProvider
     /**
      * Registers this IQ provider into given <tt>ProviderManager</tt>.
      */
-    public static void registerMuteIqProvider()
+    public static void registerVideoMuteIqProvider()
     {
         ProviderManager.addIQProvider(
                 VideoMuteIq.ELEMENT_NAME,
